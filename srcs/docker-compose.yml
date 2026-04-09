@@ -1,0 +1,115 @@
+version: '3.8'
+
+services:
+  mariadb:
+    build:
+      context: ./requirements/mariadb
+    container_name: mariadb
+    image: mariadb
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - inception
+    # 3306 port just in inception nedwork
+
+  wordpress:
+    build:
+      context: ./requirements/wordpress
+    container_name: wordpress
+    image: wordpress
+    restart: always
+    depends_on:
+      - mariadb
+    env_file:
+      - .env
+    volumes:
+      - wp_data:/var/www/wordpress
+    networks:
+      - inception
+    # Port 9000 is not exposed to the outside
+
+  nginx:
+    build:
+      context: ./requirements/nginx
+    container_name: nginx
+    image: nginx
+    restart: always
+    depends_on:
+      - wordpress
+    ports:
+      - "443:443"
+    env_file:
+      - .env
+    volumes:
+      - wp_data:/var/www/wordpress
+    networks:
+      - inception
+
+
+  adminer:
+    build: requirements/bonus/adminer
+    container_name: adminer
+    restart: always
+    expose:
+      - "8080"
+    ports:
+      - "8080:8080"  # Esto mapea el puerto del contenedor al de tu máquina
+    networks:
+      - inception
+
+  redis:
+    build: 
+      context: ./requirements/bonus/redis
+    container_name: redis
+    image: redis
+    restart: always
+    networks:
+      - inception
+
+  ftp:
+    build:
+      context: ./requirements/bonus/ftp
+    container_name: ftp
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - wp_data:/var/www/wordpress
+    networks:
+      - inception
+    ports:
+      - "21:21"
+      - "40000-40005:40000-40005"
+
+  static_site:
+    build:
+      context: ./requirements/bonus/static
+    container_name: static_site
+    image: static_site
+    restart: always
+    ports:
+      - "1337:1337"
+    networks:
+      - inception
+
+networks:
+  inception:
+    name: inception
+    driver: bridge
+
+volumes:
+  wp_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/${USER}/data/wordpress
+  db_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/${USER}/data/mariadb

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inception Infrastructure - albealva</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><span class="prompt">albealva@42inception:~$</span> cat README.md</h1>
+        </header>
+        <section class="content">
+            <div class="badge">v1.0.0-stable</div>
+            <h2>🚀 System Overview</h2>
+            <p>This project consists of a complete system infrastructure based on <strong>Docker</strong>. Every service runs in its own containerized environment, following 42 Network's strict security and performance standards.</p>
+            
+            <div class="status-grid">
+                <div class="status-item"><span>NGINX (TLS 1.3)</span><div class="dot online"></div></div>
+                <div class="status-item"><span>WORDPRESS</span><div class="dot online"></div></div>
+                <div class="status-item"><span>MARIADB</span><div class="dot online"></div></div>
+                <div class="status-item"><span>REDIS CACHE</span><div class="dot online"></div></div>
+                <div class="status-item"><span>FTP SERVER</span><div class="dot online"></div></div>
+                <div class="status-item"><span>ADMINER</span><div class="dot online"></div></div>
+            </div>
+
+            <h2>🛠️ Implemented Bonuses</h2>
+            <ul class="bonus-list">
+                <li><strong>Redis:</strong> High-performance object cache to reduce database load.</li>
+                <li><strong>Adminer:</strong> Web-based database management tool.</li>
+                <li><strong>FTP (vsftpd):</strong> Secure file transfer protocol pointing to WordPress volume.</li>
+                <li><strong>Static Site:</strong> This very dashboard, served via a dedicated Nginx instance.</li>
+            </ul>
+        </section>
+        <footer>
+            <p>Built with ❤️ by albealva for the 42 Core Curriculum</p>
+        </footer>
+    </div>
+</body>
+</html>
